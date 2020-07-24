@@ -1,4 +1,4 @@
-package com.tshering.eventmanagement.entities;
+ package com.tshering.eventmanagement.entities;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -12,10 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"resourceId"})
 @Entity
 public class Event extends AbstractEntity {
 
 	private String name;
+	@JsonProperty("desc")
 	private String description;
 	private ZonedDateTime startTime;
 	private ZonedDateTime endTime;
@@ -27,6 +34,7 @@ public class Event extends AbstractEntity {
 	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Participant> participants;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@RestResource(exported = false)
 	private Venue venue;
 
 	public String getName() {
@@ -100,6 +108,11 @@ public class Event extends AbstractEntity {
 	public void setVenue(Venue venue) {
 		this.venue = venue;
 	}
+	
+	public Long getResourceId() {
+		return this.id;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		return Objects.equals(id, ((Event) obj).id);

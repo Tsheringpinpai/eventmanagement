@@ -2,6 +2,7 @@ package com.tshering.eventmanagement.entities;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -13,6 +14,7 @@ public class Venue extends AbstractEntity {
 	private String city;
 	private String state;
 	private String country;
+	@Column(name="POSTAL_CODE")
 	private String postalcode;
 
 	public String getName() {
@@ -69,6 +71,10 @@ public class Venue extends AbstractEntity {
 
 	public void setPostalcode(String postalcode) {
 		this.postalcode = postalcode;
+	}
+	
+	public Long getResourceId() {
+		return this.id;
 	}
 	
 	@Override
